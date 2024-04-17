@@ -1,17 +1,28 @@
-import { getCategoryList } from '../../../services/good/fetchCategoryList';
+import {
+  getCategoryList
+} from '../../../services/good/fetchCategoryList';
 Page({
   data: {
     list: [],
   },
   async init() {
-    try {
-      const result = await getCategoryList();
-      this.setData({
-        list: result,
-      });
-    } catch (error) {
-      console.error('err:', error);
-    }
+
+    console.log(666);
+    wx.cloud.callFunction({
+      name: 'bikeDataFunc',
+    }).then(res => {
+      console.log(res.result)
+    }).catch(err => {})
+
+
+    // try {
+    //   const result = await getCategoryList();
+    //   this.setData({
+    //     list: result,
+    //   });
+    // } catch (error) {
+    //   console.error('err:', error);
+    // }
   },
 
   onShow() {

@@ -11,6 +11,7 @@ Component({
   externalClasses: ['custom-class'],
   properties: {
     title: String,
+    secTitle: String,
     disabled: Boolean,
   },
 
@@ -21,10 +22,14 @@ Component({
 
   methods: {
     setActive(selected) {
-      return this.setData({ selected });
+      return this.setData({
+        selected
+      });
     },
     onClick() {
-      const { parent } = this;
+      const {
+        parent
+      } = this;
 
       if (!parent || this.properties.disabled) {
         return;
@@ -34,7 +39,9 @@ Component({
 
       parent.setActive(index).then(() => {
         this.triggerEvent('click', index);
-        parent.triggerEvent('change', { index });
+        parent.triggerEvent('change', {
+          index
+        });
       });
     },
     setTopRightRadius(val) {

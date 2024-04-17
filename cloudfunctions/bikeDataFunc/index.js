@@ -9,7 +9,7 @@ cloud.init({
 exports.main = async (event, context) => {
   try {
     const db = cloud.database()
-    const collection = db.collection('bikeCompany') // 替换为你的集合名称  
+    const collection = db.collection('bikeCompanies') // 替换为你的集合名称  
     const res = await collection.get()
     return res.data
   } catch (err) {

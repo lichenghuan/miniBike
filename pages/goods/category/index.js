@@ -6,23 +6,15 @@ Page({
     list: [],
   },
   async init() {
-
-    console.log(666);
-    wx.cloud.callFunction({
-      name: 'bikeDataFunc',
-    }).then(res => {
-      console.log(res.result)
-    }).catch(err => {})
-
-
-    // try {
-    //   const result = await getCategoryList();
-    //   this.setData({
-    //     list: result,
-    //   });
-    // } catch (error) {
-    //   console.error('err:', error);
-    // }
+    try {
+      const result = await getCategoryList();
+      console.log(result);
+      this.setData({
+        list: result,
+      });
+    } catch (error) {
+      console.error('err:', error);
+    }
   },
 
   onShow() {

@@ -49,7 +49,7 @@
 }
 
 .goods-category-normal-item-container-item .image {
-  width: 144rpx;
+  width: 240rpx;
   height: 144rpx;
 }
 
@@ -57,7 +57,7 @@
   font-size: 24rpx;
   color: #666666;
   padding-top: 20rpx;
-  display:block;
+  display: block;
   text-align: center;
   width: 100%;
   overflow: hidden;
@@ -86,7 +86,7 @@
   margin-top: 8rpx;
   margin-bottom: 30rpx;
   display: grid;
-  grid-template-columns: 33.33% 33.33% 33.33%;
+  grid-template-columns: 50% 50%;
 }
 
 .goods-category-normal-item-second-container-item {

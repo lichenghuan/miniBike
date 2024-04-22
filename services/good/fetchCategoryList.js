@@ -19,7 +19,7 @@ export function getCategoryList() {
     return mockFetchGoodCategory();
   }
   return wx.cloud.callFunction({
-    name: 'bikeDataFunc',
+    name: 'getAllBikeComp',
   }).then(res => {
     return res.result
   })

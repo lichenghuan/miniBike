@@ -8,7 +8,6 @@ Page({
   async init() {
     try {
       const result = await getCategoryList();
-      console.log(result);
       this.setData({
         list: result,
       });

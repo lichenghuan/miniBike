@@ -4,6 +4,12 @@ Component({
   properties: {
     category: {
       type: Array,
+      value: [],
+      observer(newVal, oldVal) {
+        if (newVal[0] !== oldVal[0]) {
+          this.initList(newVal)
+        }
+      },
     },
     initActive: {
       type: Array,
@@ -18,14 +24,11 @@ Component({
       type: Boolean,
       value: false,
     },
-    level: {
-      type: Number,
-      value: 3,
-    },
   },
   data: {
     activeKey: 0,
     subActiveKey: 0,
+    bikeInfoList: []
   },
   attached() {
     if (this.properties.initActive && this.properties.initActive.length > 0) {
@@ -36,6 +39,20 @@ Component({
     }
   },
   methods: {
+    initList(arr, index = 0) {
+      const getCompBikeList = wx.cloud.callFunction({
+        name: 'getCompBikeList',
+        data: {
+          companyId: arr[index]._id
+        }
+      }).then(res => {
+        console.log(res.result);
+        this.setData({
+          bikeInfoList: res.result,
+        });
+      })
+
+    },
     onParentChange(event) {
       this.setActiveKey(event.detail.index, 0).then(() => {
         this.triggerEvent('change', [
@@ -45,6 +62,7 @@ Component({
       });
     },
     onChildChange(event) {
+      console.log('onChildChange');
       this.setActiveKey(this.data.activeKey, event.detail.index).then(() => {
         this.triggerEvent('change', [
           this.data.activeKey,
@@ -53,15 +71,23 @@ Component({
       });
     },
     changCategory(event) {
-      const { item } = event.currentTarget.dataset;
+      console.log('changCategory');
+      const {
+        item
+      } = event.currentTarget.dataset;
       this.triggerEvent('changeCategory', {
         item,
       });
     },
     setActiveKey(key, subKey) {
+      console.log('setActiveKey');
+      console.log(key);
+
+      this.initList(this.properties.category, key)
+
+
       return new Promise((resolve) => {
-        this.setData(
-          {
+        this.setData({
             activeKey: key,
             subActiveKey: subKey,
           },

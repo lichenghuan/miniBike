@@ -1,12 +1,18 @@
 import Toast from 'tdesign-miniprogram/toast/index';
-import { fetchGood } from '../../../services/good/fetchGood';
-import { fetchActivityList } from '../../../services/activity/fetchActivityList';
+import {
+  fetchGood
+} from '../../../services/good/fetchGood';
+import {
+  fetchActivityList
+} from '../../../services/activity/fetchActivityList';
 import {
   getGoodsDetailsCommentList,
   getGoodsDetailsCommentsCount,
 } from '../../../services/good/fetchGoodsDetailsComments';
 
-import { cdnBase } from '../../../config/index';
+import {
+  cdnBase
+} from '../../../config/index';
 
 const imgPrefix = `${cdnBase}/`;
 
@@ -23,6 +29,10 @@ const obj2Params = (obj = {}, encode = false) => {
 
 Page({
   data: {
+    bikeId: '',
+    bikeData: {},
+    bikePictures: [],
+
     commentsList: [],
     commentsStatistics: {
       badCount: 0,
@@ -37,8 +47,7 @@ Page({
     recLeftImg,
     recRightImg,
     details: {},
-    goodsTabArray: [
-      {
+    goodsTabArray: [{
         name: '商品',
         value: '', // 空字符串代表置顶
       },
@@ -49,8 +58,7 @@ Page({
     ],
     storeLogo: `${imgPrefix}common/store-logo.png`,
     storeName: '云mall标准版旗舰店',
-    jumpArray: [
-      {
+    jumpArray: [{
         title: '首页',
         url: '/pages/home/home',
         iconName: 'home',
@@ -82,7 +90,10 @@ Page({
     maxSalePrice: 0,
     list: [],
     spuId: '',
-    navigation: { type: 'fraction' },
+    navigation: {
+      type: 'fraction'
+    },
+    paginationPosition: 'bottom-right',
     current: 0,
     autoplay: true,
     duration: 500,
@@ -113,29 +124,42 @@ Page({
   },
 
   toNav(e) {
-    const { url } = e.detail;
+    const {
+      url
+    } = e.detail;
     wx.switchTab({
       url: url,
     });
   },
 
   showCurImg(e) {
-    const { index } = e.detail;
-    const { images } = this.data.details;
+    const {
+      index
+    } = e.detail;
+    const {
+      images
+    } = this.data.details;
     wx.previewImage({
       current: images[index],
       urls: images, // 需要预览的图片http链接列表
     });
   },
 
-  onPageScroll({ scrollTop }) {
+  onPageScroll({
+    scrollTop
+  }) {
     const goodsTab = this.selectComponent('#goodsTab');
     goodsTab && goodsTab.onScroll(scrollTop);
   },
 
   chooseSpecItem(e) {
-    const { specList } = this.data.details;
-    const { selectedSku, isAllSelectedSku } = e.detail;
+    const {
+      specList
+    } = this.data.details;
+    const {
+      selectedSku,
+      isAllSelectedSku
+    } = e.detail;
     if (!isAllSelectedSku) {
       this.setData({
         selectSkuSellsPrice: 0,
@@ -148,7 +172,10 @@ Page({
   },
 
   getSkuItem(specList, selectedSku) {
-    const { skuArray, primaryImage } = this.data;
+    const {
+      skuArray,
+      primaryImage
+    } = this.data;
     const selectedSkuValues = this.getSelectedSkuValues(specList, selectedSku);
     let selectedAttrStr = ` 件  `;
     selectedSkuValues.forEach((item) => {
@@ -221,7 +248,9 @@ Page({
   },
 
   addCart() {
-    const { isAllSelectedSku } = this.data;
+    const {
+      isAllSelectedSku
+    } = this.data;
     Toast({
       context: this,
       selector: '#t-toast',
@@ -232,7 +261,10 @@ Page({
   },
 
   gotoBuy(type) {
-    const { isAllSelectedSku, buyNum } = this.data;
+    const {
+      isAllSelectedSku,
+      buyNum
+    } = this.data;
     if (!isAllSelectedSku) {
       Toast({
         context: this,
@@ -249,8 +281,7 @@ Page({
       storeId: '1',
       spuId: this.data.spuId,
       goodsName: this.data.details.title,
-      skuId:
-        type === 1 ? this.data.skuList[0].skuId : this.data.selectItem.skuId,
+      skuId: type === 1 ? this.data.skuList[0].skuId : this.data.selectItem.skuId,
       available: this.data.details.available,
       price: this.data.details.minSalePrice,
       specInfo: this.data.details.specList?.map((item) => ({
@@ -273,7 +304,9 @@ Page({
   },
 
   specsConfirm() {
-    const { buyType } = this.data;
+    const {
+      buyType
+    } = this.data;
     if (buyType === 1) {
       this.gotoBuy();
     } else {
@@ -295,7 +328,9 @@ Page({
   },
 
   promotionChange(e) {
-    const { index } = e.detail;
+    const {
+      index
+    } = e.detail;
     wx.navigateTo({
       url: `/pages/promotion-detail/index?promotion_id=${index}`,
     });
@@ -307,54 +342,71 @@ Page({
     });
   },
 
-  getDetail(spuId) {
-    Promise.all([fetchGood(spuId), fetchActivityList()]).then((res) => {
-      const [details, activityList] = res;
-      const skuArray = [];
-      const {
-        skuList,
-        primaryImage,
-        isPutOnSale,
-        minSalePrice,
-        maxSalePrice,
-        maxLinePrice,
-        soldNum,
-      } = details;
-      skuList.forEach((item) => {
-        skuArray.push({
-          skuId: item.skuId,
-          quantity: item.stockInfo ? item.stockInfo.stockQuantity : 0,
-          specInfo: item.specInfo,
-        });
-      });
-      const promotionArray = [];
-      activityList.forEach((item) => {
-        promotionArray.push({
-          tag: item.promotionSubCode === 'MYJ' ? '满减' : '满折',
-          label: '满100元减99.9元',
-        });
-      });
+  getDetail(bikeId) {
+    wx.cloud.callFunction({
+      name: 'getBikeInfo',
+      data: {
+        bikeId: bikeId
+      }
+    }).then(res => {
+      console.log(666);
+      console.log(res.result);
       this.setData({
-        details,
-        activityList,
-        isStock: details.spuStockQuantity > 0,
-        maxSalePrice: maxSalePrice ? parseInt(maxSalePrice) : 0,
-        maxLinePrice: maxLinePrice ? parseInt(maxLinePrice) : 0,
-        minSalePrice: minSalePrice ? parseInt(minSalePrice) : 0,
-        list: promotionArray,
-        skuArray: skuArray,
-        primaryImage,
-        soldout: isPutOnSale === 0,
-        soldNum,
+        bikeData: res.result,
+        bikePictures: [res.result.picture, res.result.picture]
       });
-    });
+    })
+
+    // Promise.all([fetchGood(spuId), fetchActivityList()]).then((res) => {
+    //   const [details, activityList] = res;
+    //   const skuArray = [];
+    //   const {
+    //     skuList,
+    //     primaryImage,
+    //     isPutOnSale,
+    //     minSalePrice,
+    //     maxSalePrice,
+    //     maxLinePrice,
+    //     soldNum,
+    //   } = details;
+    //   skuList.forEach((item) => {
+    //     skuArray.push({
+    //       skuId: item.skuId,
+    //       quantity: item.stockInfo ? item.stockInfo.stockQuantity : 0,
+    //       specInfo: item.specInfo,
+    //     });
+    //   });
+    //   const promotionArray = [];
+    //   activityList.forEach((item) => {
+    //     promotionArray.push({
+    //       tag: item.promotionSubCode === 'MYJ' ? '满减' : '满折',
+    //       label: '满100元减99.9元',
+    //     });
+    //   });
+    //   this.setData({
+    //     details,
+    //     activityList,
+    //     isStock: details.spuStockQuantity > 0,
+    //     maxSalePrice: maxSalePrice ? parseInt(maxSalePrice) : 0,
+    //     maxLinePrice: maxLinePrice ? parseInt(maxLinePrice) : 0,
+    //     minSalePrice: minSalePrice ? parseInt(minSalePrice) : 0,
+    //     list: promotionArray,
+    //     skuArray: skuArray,
+    //     primaryImage,
+    //     soldout: isPutOnSale === 0,
+    //     soldNum,
+    //   });
+    // });
+
   },
 
   async getCommentsList() {
     try {
       const code = 'Success';
       const data = await getGoodsDetailsCommentList();
-      const { homePageComments } = data;
+      const {
+        homePageComments
+      } = data;
       if (code.toUpperCase() === 'SUCCESS') {
         const nextState = {
           commentsList: homePageComments.map((item) => {
@@ -363,9 +415,8 @@ Page({
               userName: item.userName || '',
               commentScore: item.commentScore,
               commentContent: item.commentContent || '用户未填写评价',
-              userHeadUrl: item.isAnonymity
-                ? this.anonymityAvatar
-                : item.userHeadUrl || this.anonymityAvatar,
+              userHeadUrl: item.isAnonymity ?
+                this.anonymityAvatar : item.userHeadUrl || this.anonymityAvatar,
             };
           }),
         };
@@ -378,7 +429,9 @@ Page({
 
   onShareAppMessage() {
     // 自定义的返回信息
-    const { selectedAttrStr } = this.data;
+    const {
+      selectedAttrStr
+    } = this.data;
     let shareSubTitle = '';
     if (selectedAttrStr.indexOf('件') > -1) {
       const count = selectedAttrStr.indexOf('件');
@@ -432,12 +485,14 @@ Page({
   },
 
   onLoad(query) {
-    const { spuId } = query;
+    const {
+      bikeId
+    } = query;
     this.setData({
-      spuId: spuId,
+      bikeId: bikeId,
     });
-    this.getDetail(spuId);
-    this.getCommentsList(spuId);
-    this.getCommentsStatistics(spuId);
+    this.getDetail(bikeId);
+    // this.getCommentsList(spuId);
+    // this.getCommentsStatistics(spuId);
   },
 });

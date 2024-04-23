@@ -19,10 +19,17 @@ Page({
   onShow() {
     this.getTabBar().init();
   },
-  onChange() {
+  onChange(e) {
+    const {
+      item
+    } = e.detail;
+    console.log(item._id);
     wx.navigateTo({
-      url: '/pages/goods/list/index',
+      url: `/pages/goods/details/index?bikeId=${item._id}`,
     });
+    // wx.navigateTo({
+    //   url: '/pages/goods/list/index',
+    // });
   },
   onLoad() {
     this.init(true);

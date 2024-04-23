@@ -71,7 +71,6 @@ Component({
       });
     },
     changCategory(event) {
-      console.log('changCategory');
       const {
         item
       } = event.currentTarget.dataset;

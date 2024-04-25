@@ -12,7 +12,7 @@ Page({
         list: result,
       });
     } catch (error) {
-      console.error('err:', error);
+      console.log('err:', error);
     }
   },
 

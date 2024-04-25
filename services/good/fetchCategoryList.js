@@ -19,8 +19,12 @@ export function getCategoryList() {
     return mockFetchGoodCategory();
   }
   return wx.cloud.callFunction({
-    name: 'getAllBikeComp',
+    name: 'getBikeBrands',
+    data: {
+      pageIndex: 1,
+      pageSize: 100
+    },
   }).then(res => {
-    return res.result
+    return res.result.data || []
   })
 }

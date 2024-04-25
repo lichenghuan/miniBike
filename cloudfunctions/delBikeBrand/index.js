@@ -9,15 +9,20 @@ cloud.init({
 exports.main = async (event, context) => {
   try {
     const {
-      _id,
+      _id
     } = event // 从event中获取查询参数 
     const db = cloud.database()
-    const compInfo = await db.collection('bikeCompanies').where({
-      _id: _id
-    }).get()
-    return compInfo.data[0]
+    await db.collection('bikeBrands').doc(_id).remove()
+    return {
+      success: true,
+      msg: '操作成功'
+    }
   } catch (error) {
     console.error(err)
-    return err
+    return {
+      success: false,
+      msg: '操作失败',
+      info: err
+    }
   }
 }

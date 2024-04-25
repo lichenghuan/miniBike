@@ -40,10 +40,10 @@ Component({
   },
   methods: {
     initList(arr, index = 0) {
-      const getCompBikeList = wx.cloud.callFunction({
-        name: 'getCompBikeList',
+      const getBikeInfoList = wx.cloud.callFunction({
+        name: 'getBikeInfoList',
         data: {
-          companyId: arr[index]._id
+          brandId: arr[index]._id
         }
       }).then(res => {
         console.log(res.result);
@@ -51,7 +51,6 @@ Component({
           bikeInfoList: res.result,
         });
       })
-
     },
     onParentChange(event) {
       this.setActiveKey(event.detail.index, 0).then(() => {

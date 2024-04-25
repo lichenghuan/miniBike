@@ -9,14 +9,16 @@ cloud.init({
 exports.main = async (event, context) => {
   try {
     const {
-      name,
-      nameplate
+      brandName,
+      brandAlias,
+      country
     } = event // 从event中获取查询参数 
     const db = cloud.database()
-    await db.collection('bikeCompanies').add({
+    await db.collection('bikeBrands').add({
       data: {
-        name: name,
-        nameplate: nameplate
+        brandName: brandName,
+        brandAlias: brandAlias,
+        country: country,
       }
     })
     return {

@@ -9,10 +9,19 @@ cloud.init({
 exports.main = async (event, context) => {
   try {
     const {
-      _id
+      _id,
+      brandName,
+      brandAlias,
+      country
     } = event // 从event中获取查询参数 
     const db = cloud.database()
-    await db.collection('bikeCompanies').doc(_id).remove()
+    await db.collection('bikeBrands').doc(_id).update({
+      data: {
+        brandName: brandName,
+        brandAlias: brandAlias,
+        country: country
+      }
+    })
     return {
       success: true,
       msg: '操作成功'

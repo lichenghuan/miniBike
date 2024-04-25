@@ -1,5 +1,5 @@
 // 云函数入口文件
-const cloud = require('cloudfunctions/getBikeInfoListByBrandId/node_modules/wx-server-sdk')
+const cloud = require('wx-server-sdk')
 
 cloud.init({
   env: cloud.DYNAMIC_CURRENT_ENV
@@ -9,16 +9,25 @@ cloud.init({
 exports.main = async (event, context) => {
   try {
     const {
-      brandName,
-      brandAlias,
-      country
+      _id,
+      brandId,
+      name,
+      classify,
+      bikeFrame,
+      price,
+      wheelset,
+      picture
     } = event // 从event中获取查询参数 
     const db = cloud.database()
-    await db.collection('bikeBrands').add({
+    await db.collection('bikeInfo').doc(_id).update({
       data: {
-        brandName: brandName,
-        brandAlias: brandAlias,
-        country: country,
+        brandId: brandId,
+        name: name,
+        classify: classify,
+        bikeFrame: bikeFrame,
+        price: price,
+        wheelset: wheelset,
+        picture: picture
       }
     })
     return {

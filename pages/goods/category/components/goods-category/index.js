@@ -41,7 +41,7 @@ Component({
   methods: {
     initList(arr, index = 0) {
       const getBikeInfoList = wx.cloud.callFunction({
-        name: 'getBikeInfoList',
+        name: 'getBikeInfoListByBrandId',
         data: {
           brandId: arr[index]._id
         }

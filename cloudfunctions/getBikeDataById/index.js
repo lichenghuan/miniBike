@@ -5,20 +5,19 @@ cloud.init({
   env: cloud.DYNAMIC_CURRENT_ENV
 }) // 使用当前云环境
 
-// 云函数入口函数   根据公司id获取该公司下的所有自行车信息
+// 云函数入口函数
 exports.main = async (event, context) => {
   try {
     const {
-      brandId,
-      classify = ''
+      _id,
     } = event // 从event中获取查询参数 
     const db = cloud.database()
     const bikeInfo = await db.collection('bikeInfo').where({
-      brandId: brandId
+      _id: _id
     }).get()
-    return bikeInfo.data
+    return bikeInfo.data[0]
   } catch (error) {
-    console.error(err)
-    return err
+    console.error(error)
+    return error
   }
 }

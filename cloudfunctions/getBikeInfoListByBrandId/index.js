@@ -1,21 +1,22 @@
 // 云函数入口文件
-const cloud = require('cloudfunctions/getBikeInfoListByBrandId/node_modules/wx-server-sdk')
+const cloud = require('wx-server-sdk')
 
 cloud.init({
   env: cloud.DYNAMIC_CURRENT_ENV
 }) // 使用当前云环境
 
-// 云函数入口函数
+// 云函数入口函数   根据公司id获取该公司下的所有自行车信息
 exports.main = async (event, context) => {
   try {
     const {
-      _id,
+      brandId,
+      classify = ''
     } = event // 从event中获取查询参数 
     const db = cloud.database()
-    const bikeBrandInfo = await db.collection('bikeBrands').where({
-      _id: _id
+    const bikeInfo = await db.collection('bikeInfo').where({
+      brandId: brandId
     }).get()
-    return bikeBrandInfo.data[0]
+    return bikeInfo.data
   } catch (error) {
     console.error(error)
     return error

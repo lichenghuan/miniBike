@@ -13,8 +13,10 @@ exports.main = async (event, context) => {
       cloudPath
     } = event;
 
+    // 提取 Base64 编码部分（去掉 data:image/png;base64,）  
+    let base64Data = imageBase64.split(',')[1];
     // 将 base64 转换为 buffer  
-    const buffer = Buffer.from(imageBase64, 'base64');
+    const buffer = Buffer.from(base64Data, 'base64');
 
     // 上传到云存储  
     const result = await cloud.uploadFile({
@@ -22,9 +24,7 @@ exports.main = async (event, context) => {
       fileContent: buffer, // 文件内容，Buffer 类型  
     });
     // 返回 File ID  
-    return {
-      fileID: result.fileID
-    };
+    return result;
   } catch (err) {
     console.error(err);
     return err;

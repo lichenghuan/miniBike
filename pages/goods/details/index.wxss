@@ -1,4 +1,5 @@
 @import '../../../style/global.wxss';
+
 page {
   width: 100vw;
 }
@@ -339,4 +340,25 @@ page {
   line-height: 40rpx;
   font-size: 28rpx;
   font-weight: 400;
+}
+
+.goods-configure {
+  margin-top: 20rpx;
+  background: #fff;
+}
+
+.goods-configure .tit {
+  padding: 20rpx 0 10rpx 20rpx;
+  font-size: 32rpx;
+  box-sizing: border-box;
+}
+
+.goods-configure .t-col {
+  padding: 10rpx 0 10rpx 20rpx;
+  font-size: 28rpx;
+  box-sizing: border-box;
+}
+
+.goods-configure .categ {
+  font-weight: bold;
 }

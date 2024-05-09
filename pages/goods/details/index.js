@@ -349,11 +349,21 @@ Page({
         bikeId: bikeId
       }
     }).then(res => {
-      console.log(666);
-      console.log(res.result);
+      let result = res.result
+      let bikePictures = []
+      if (result.mainImglist) {
+        result.mainImglist.forEach(item => {
+          bikePictures.push(item.fileUrl)
+        })
+      }
+
+      console.log('88888');
+      console.log(result);
+
+
       this.setData({
-        bikeData: res.result,
-        bikePictures: [res.result.picture, res.result.picture]
+        bikeData: result,
+        bikePictures: bikePictures
       });
     })
 

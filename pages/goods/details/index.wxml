@@ -1,11 +1,13 @@
 <view class="goods-detail-page">
+
+  <!-- 轮播图 -->
   <view class="goods-head">
     <t-swiper wx:if="{{bikePictures.length > 0}}" height="460rpx" current="{{current}}" autoplay="{{autoplay}}" duration="{{duration}}" interval="{{interval}}" navigation="{{navigation}}" list="{{bikePictures}}" paginationPosition="{{paginationPosition}}"></t-swiper>
-
+    <!-- 商品主信息 -->
     <view class="goods-info">
       <view class="goods-number">
         <view class="goods-price">
-          <price wr-class="class-goods-price" symbol-class="class-goods-symbol" price="{{bikeData.price}}" priceUnit="yuan" fill="true" decimalSmaller="true" type="lighter" />
+          <price wr-class="class-goods-price" symbol-class="class-goods-symbol" price="{{ bikeData.price }}" priceUnit="yuan" fill="true" decimalSmaller="true" type="lighter" />
         </view>
         <view class="sold-num">热度{{soldNum}}</view>
       </view>
@@ -23,9 +25,11 @@
       <view class="goods-title">
         <view class="goods-name">
           {{ bikeData.name }}
-          {{ bikeData.bikeFrame }}
           {{ bikeData.classify }}
-          {{ bikeData.wheelset }}
+          {{ bikeData.size }}
+          {{ bikeData.price }}
+
+
         </view>
         <view class="goods-tag">
           <t-button open-type="share" t-class="shareBtn" variant="text">
@@ -70,19 +74,147 @@
       </view>
     </view>
   </view>
-  <view class="desc-content">
-    <view class="desc-content__title" wx:if="{{details.desc.length > 0}}">
+  <view class="desc-content" wx:if="{{details.desc.length > 0}}">
+    <view class="desc-content__title">
       <t-image t-class="img" src="{{recLeftImg}}" />
       <span class="desc-content__title--text">详情介绍</span>
       <t-image t-class="img" src="{{recRightImg}}" />
     </view>
-    <view wx:if="{{details.desc.length > 0}}" wx:for="{{details.desc}}" wx:key="index">
+    <view wx:for="{{details.desc}}" wx:key="index">
       <t-image t-class="desc-content__img" src="{{item}}" mode="widthFix" />
     </view>
   </view>
   <view class="goods-bottom-operation">
     <buy-bar jumpArray="{{jumpArray}}" soldout="{{soldout}}" isStock="{{isStock}}" shopCartNum="{{cartNum}}" buttonType="{{buttonType}}" bind:toAddCart="toAddCart" bind:toNav="toNav" bind:toBuyNow="buyItNow" class="goods-details-card" />
   </view>
+
+  <!-- 自行车配置表 -->
+  <view class="goods-configure">
+    <view class="tit"> 配置表 </view>
+    <t-divider />
+    <t-row>
+      <t-col span="6" class="left categ">主体系统</t-col>
+      <t-col span="18" class="right"></t-col>
+    </t-row>
+    <t-divider />
+    <t-row>
+      <t-col span="6" class="left">车架</t-col>
+      <t-col span="18" class="right">{{bikeData.bikeFrame}}</t-col>
+    </t-row>
+    <t-divider />
+    <t-row>
+      <t-col span="6" class="left">颜色</t-col>
+      <t-col span="18" class="right">{{bikeData.overallColor}}</t-col>
+    </t-row>
+    <t-divider />
+    <t-row>
+      <t-col span="6" class="left">尺寸</t-col>
+      <t-col span="18" class="right">{{bikeData.size}}</t-col>
+    </t-row>
+    <t-divider />
+    <t-row>
+      <t-col span="6" class="left">速别</t-col>
+      <t-col span="18" class="right">{{bikeData.speedClassify}}</t-col>
+    </t-row>
+    <t-divider />
+    <t-row>
+      <t-col span="6" class="left">车重</t-col>
+      <t-col span="18" class="right">{{bikeData.weight}}</t-col>
+    </t-row>
+    <t-divider />
+    <t-row>
+      <t-col span="6" class="left">前叉</t-col>
+      <t-col span="18" class="right">{{bikeData.frontFork}}</t-col>
+    </t-row>
+    <t-divider />
+    <t-row>
+      <t-col span="6" class="left">车把</t-col>
+      <t-col span="18" class="right">{{bikeData.handlebars}}</t-col>
+    </t-row>
+    <t-divider />
+    <t-row>
+      <t-col span="6" class="left">轮组</t-col>
+      <t-col span="18" class="right">{{bikeData.wheelMaterial}}</t-col>
+    </t-row>
+    <t-divider />
+    <t-row>
+      <t-col span="6" class="left categ">变速系统</t-col>
+      <t-col span="18" class="right"></t-col>
+    </t-row>
+    <t-divider />
+    <t-row>
+      <t-col span="6" class="left">前拨</t-col>
+      <t-col span="18" class="right">{{bikeData.frontDerailleur}}</t-col>
+    </t-row>
+    <t-divider />
+    <t-row>
+      <t-col span="6" class="left">后拨</t-col>
+      <t-col span="18" class="right">{{bikeData.rearDerailleur}}</t-col>
+    </t-row>
+    <t-divider />
+    <t-row>
+      <t-col span="6" class="left">手变</t-col>
+      <t-col span="18" class="right">{{bikeData.shifter}}</t-col>
+    </t-row>
+    <t-divider />
+    <t-row>
+      <t-col span="6" class="left categ">传动系统</t-col>
+      <t-col span="18" class="right"></t-col>
+    </t-row>
+    <t-divider />
+    <t-row>
+      <t-col span="6" class="left">中轴</t-col>
+      <t-col span="18" class="right">{{bikeData.bottomBracket}}</t-col>
+    </t-row>
+    <t-divider />
+    <t-row>
+      <t-col span="6" class="left">飞轮</t-col>
+      <t-col span="18" class="right">{{bikeData.freewheel}}</t-col>
+    </t-row>
+    <t-divider />
+    <t-row>
+      <t-col span="6" class="left">牙盘</t-col>
+      <t-col span="18" class="right">{{bikeData.crankset}}</t-col>
+    </t-row>
+    <t-divider />
+    <t-row>
+      <t-col span="6" class="left">链条</t-col>
+      <t-col span="18" class="right">{{bikeData.chain}}</t-col>
+    </t-row>
+    <t-divider />
+    <t-row>
+      <t-col span="6" class="left categ">刹车系统</t-col>
+      <t-col span="18" class="right"></t-col>
+    </t-row>
+    <t-divider />
+    <t-row>
+      <t-col span="6" class="left">刹车类型</t-col>
+      <t-col span="18" class="right">{{bikeData.brakeType}}</t-col>
+    </t-row>
+    <t-divider />
+    <t-row>
+      <t-col span="6" class="left">花鼓</t-col>
+      <t-col span="18" class="right">{{bikeData.hub}}</t-col>
+    </t-row>
+    <t-divider />
+    <t-row>
+      <t-col span="6" class="left">其他</t-col>
+      <t-col span="18" class="right">{{bikeData.remark}}</t-col>
+    </t-row>
+    <t-divider />
+
+
+  </view>
+
+  <view class="goods-otherImg" wx:if="{{bikeData.otherImglist}}">
+    <view wx:for="{{bikeData.otherImglist}}" wx:for-item="imgItem">
+      <image src="{{imgItem.fileUrl}}" style="width: 100%;" />
+    </view>
+  </view>
+
+
+
+
   <goods-specs-popup id="goodsSpecsPopup" show="{{isSpuSelectPopupShow}}" title="{{details.title || ''}}" src="{{specImg ? specImg : primaryImage}}" specList="{{details.specList || []}}" skuList="{{skuArray}}" limitBuyInfo="{{details.limitInfo[0].text || ''}}" bind:closeSpecsPopup="handlePopupHide" bind:change="chooseSpecItem" bind:changeNum="changeNum" bind:addCart="addCart" bind:buyNow="gotoBuy" bind:specsConfirm="specsConfirm" isStock="{{isStock}}" outOperateStatus="{{outOperateStatus}}">
     <view slot="goods-price">
       <view class="popup-sku__price">

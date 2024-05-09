@@ -13,6 +13,9 @@
     "price": "/components/price/index",
     "buy-bar": "./components/buy-bar/index",
     "promotion-popup": "./components/promotion-popup/index",
-    "goods-specs-popup": "./components/goods-specs-popup/index"
+    "goods-specs-popup": "./components/goods-specs-popup/index",
+    "t-row": "tdesign-miniprogram/row/row",
+    "t-col": "tdesign-miniprogram/col/col",
+    "t-divider": "tdesign-miniprogram/divider/divider"
   }
 }

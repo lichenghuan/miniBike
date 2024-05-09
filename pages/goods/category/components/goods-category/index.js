@@ -46,7 +46,6 @@ Component({
           brandId: arr[index]._id
         }
       }).then(res => {
-        console.log(res.result);
         this.setData({
           bikeInfoList: res.result,
         });

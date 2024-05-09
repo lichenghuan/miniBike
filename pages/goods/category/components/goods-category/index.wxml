@@ -11,7 +11,7 @@
         <view class="goods-category-normal-item-container">
           <block wx:for="{{bikeInfoList}}" wx:key="index">
             <view class="goods-category-normal-item-container-item" wx:for-key="index" bindtap="changCategory" data-item="{{item}}">
-              <t-image src="{{item.picture}}" t-class="image" />
+              <t-image src="{{item.mainImglist[0].fileUrl}}" t-class="image" />
               <view class="flex goods-category-normal-item-container-item-title">
                 {{item.name}}
               </view>
